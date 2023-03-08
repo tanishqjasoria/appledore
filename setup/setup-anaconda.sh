@@ -3,3 +3,5 @@ sudo apt-get install libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 
 wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
 ./Anaconda3-2022.10-Linux-x86_64.sh
 conda config --set changeps1 False
+rm -rf Anaconda3-2022.10-Linux-x86_64.sh
+

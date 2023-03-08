@@ -8,6 +8,7 @@ sudo apt install -y git \
     ca-certificates \
     curl \
     gnupg \
+    gnupg2 \
     gnupg-agent \
     lsb-release \
     software-properties-common \
