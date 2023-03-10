@@ -120,18 +120,16 @@ fi
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 
-# >>>>>>>>>>>>>>>>>>>>>>>>>>[ INSTALLATION BASED VARIABLES ]>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/eurus/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('$HOME/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/eurus/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/eurus/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "$HOME/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/eurus/anaconda3/bin:$PATH"
+        export PATH="$HOME/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -144,13 +142,12 @@ source $HOME/.secrets
 # uninstall by removing these lines
 [ -f ~/.config/tabtab/__tabtab.bash ] && . ~/.config/tabtab/__tabtab.bash || true
 
-if [ -f $HOME/.cargo/env ]; then 
-	source $HOME/.cargo/env
-fi
 
+
+# for laptop with nvidia gpu and pop-os
 alias prime-run="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia __VK_LAYER_NV_optimus=NVIDIA_only"
 . "$HOME/.cargo/env"
+
 export PATH=$PATH:/usr/local/go/bin
-
-
-[ -f "/home/eurus/.ghcup/env" ] && source "/home/eurus/.ghcup/env" # ghcup-env
+[ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
+[ -f $HOME/.ghcup/env ] && source $HOME/.ghcup/env # ghcup-env
