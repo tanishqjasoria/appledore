@@ -37,7 +37,7 @@ services:
     - --HealthChecks.Enabled=true
     - --Metrics.Enabled=true
     - --Metrics.ExposePort=8008
-    - --Pruning.Enabled=None
+    - --Pruning.Mode=None
   consensus:
     stop_grace_period: 30s
     container_name: sedge-consensus-client-refactor
