@@ -1,3 +1,3 @@
-./prysm.sh beacon-chain --http-web3provider=http://localhost:8551 --jwt-secret=/tmp/jwtsecret \
---checkpoint-sync-url=https://beaconstate.info\
---genesis-beacon-api-url=https://beaconstate.info
+export CHECKPOINT_SYNC_URL=https://beaconstate.info
+./prysm.sh beacon-chain --execution-endpoint=http://localhost:8551 --datadir=prysm --jwt-secret=/tmp/jwtsecret \
+--checkpoint-sync-url=CHECKPOINT_SYNC_URL --genesis-beacon-api-url=CHECKPOINT_SYNC_URL
