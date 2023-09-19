@@ -1,0 +1,84 @@
+version: "3.9"
+services:
+  execution:
+    tty: true
+    environment:
+    - TERM=xterm-256color
+    - COLORTERM=truecolor
+    stop_grace_period: 30s
+    container_name: sedge-execution-client-chiado
+    restart: unless-stopped
+    image: ${EC_IMAGE_VERSION}
+    networks:
+    - sedge
+    volumes:
+    - ${EC_DATA_DIR}:/nethermind/data
+    - ${EC_JWT_SECRET_PATH}:/tmp/jwt/jwtsecret
+    ports:
+    - 30303:30303/tcp
+    - 30303:30303/udp
+    - 8008:8008
+    expose:
+    - 8545
+    - 8551
+    command:
+    - --config=${NETWORK}
+    - --datadir=/nethermind/data
+    - --log=${NETHERMIND_LOG_LEVEL}
+    - --Merge.TerminalTotalDifficulty=231707791542740786049188744689299064356246512
+    - --JsonRpc.Enabled=true
+    - --JsonRpc.Host=0.0.0.0
+    - --JsonRpc.Port=8545
+    - --JsonRpc.JwtSecretFile=/tmp/jwt/jwtsecret
+    - --JsonRpc.EngineHost=0.0.0.0
+    - --JsonRpc.EnginePort=8551
+    - --Network.DiscoveryPort=30303
+    - --HealthChecks.Enabled=true
+    - --Metrics.Enabled=true
+    - --Metrics.ExposePort=8008
+  consensus:
+    stop_grace_period: 30s
+    container_name: sedge-consensus-client-chiado
+    restart: unless-stopped
+    image: ${CC_IMAGE_VERSION}
+    networks:
+    - sedge
+    volumes:
+    - ${CC_DATA_DIR}:/var/lib/lighthouse
+    - ${CC_JWT_SECRET_PATH}:/tmp/jwt/jwtsecret
+    - /home/eurus/appledore/nethermind/gnosis-scripts/sedge-data/custom_configs/config.yaml:/network_config/config.yaml
+    - /home/eurus/appledore/nethermind/gnosis-scripts/sedge-data/custom_configs/genesis.ssz:/network_config/genesis.ssz
+    - /home/eurus/appledore/nethermind/gnosis-scripts/sedge-data/custom_configs/deploy_block.txt:/network_config/deploy_block.txt
+    ports:
+    - 9000:9000/tcp
+    - 9000:9000/udp
+    - 5054:5054/tcp
+    expose:
+    - 4000
+    command:
+    - lighthouse
+    - --testnet-dir=/network_config
+    - bn
+    - --disable-upnp
+    - --datadir=/var/lib/lighthouse
+    - --port=9000
+    - --http
+    - --http-address=0.0.0.0
+    - --http-port=4000
+    - --target-peers=${CC_PEER_COUNT}
+    - --boot-nodes=enr:-L64QOijsdi9aVIawMb5h5PWueaPM9Ai6P17GNPFlHzz7MGJQ8tFMdYrEx8WQitNKLG924g2Q9cCdzg54M0UtKa3QIKCMxaHYXR0bmV0c4j__________4RldGgykDE2cEMCAABv__________-CaWSCdjSCaXCEi5AaWYlzZWNwMjU2azGhA8CjTkD4m1s8FbKCN18LgqlYcE65jrT148vFtwd9U62SiHN5bmNuZXRzD4N0Y3CCIyiDdWRwgiMo,enr:-L64QKYKGQj5ybkfBxyFU5IEVzP7oJkGHJlie4W8BCGAYEi4P0mmMksaasiYF789mVW_AxYVNVFUjg9CyzmdvpyWQ1KCMlmHYXR0bmV0c4j__________4RldGgykDE2cEMCAABv__________-CaWSCdjSCaXCEi5CtNolzZWNwMjU2azGhAuA7BAwIijy1z81AO9nz_MOukA1ER68rGA67PYQ5pF1qiHN5bmNuZXRzD4N0Y3CCIyiDdWRwgiMo,enr:-Ly4QJJUnV9BxP_rw2Bv7E9iyw4sYS2b4OQZIf4Mu_cA6FljJvOeSTQiCUpbZhZjR4R0VseBhdTzrLrlHrAuu_OeZqgJh2F0dG5ldHOI__________-EZXRoMpAxNnBDAgAAb___________gmlkgnY0gmlwhIuQGnOJc2VjcDI1NmsxoQPT_u3IjDtB2r-nveH5DhUmlM8F2IgLyxhmwmqW4L5k3ohzeW5jbmV0cw-DdGNwgiMog3VkcIIjKA,enr:-MK4QCkOyqOTPX1_-F-5XVFjPclDUc0fj3EeR8FJ5-hZjv6ARuGlFspM0DtioHn1r6YPUXkOg2g3x6EbeeKdsrvVBYmGAYQKrixeh2F0dG5ldHOIAAAAAAAAAACEZXRoMpAxNnBDAgAAb___________gmlkgnY0gmlwhIuQGlWJc2VjcDI1NmsxoQKdW3-DgLExBkpLGMRtuM88wW_gZkC7Yeg0stYDTrlynYhzeW5jbmV0cwCDdGNwgiMog3VkcIIjKA==,enr:-Ly4QLYLNqrjvSxD3lpAPBUNlxa6cIbe79JqLZLFcZZjWoCjZcw-85agLUErHiygG2weRSCLnd5V460qTbLbwJQsfZkoh2F0dG5ldHOI__________-EZXRoMpAxNnBDAgAAb___________gmlkgnY0gmlwhKq7mu-Jc2VjcDI1NmsxoQP900YAYa9kdvzlSKGjVo-F3XVzATjOYp3BsjLjSophO4hzeW5jbmV0cw-DdGNwgiMog3VkcIIjKA,enr:-Ly4QCGeYvTCNOGKi0mKRUd45rLj96b4pH98qG7B9TCUGXGpHZALtaL2-XfjASQyhbCqENccI4PGXVqYTIehNT9KJMQgh2F0dG5ldHOI__________-EZXRoMpAxNnBDAgAAb___________gmlkgnY0gmlwhIuQrVSJc2VjcDI1NmsxoQP9iDchx2PGl3JyJ29B9fhLCvVMN6n23pPAIIeFV-sHOIhzeW5jbmV0cw-DdGNwgiMog3VkcIIjKA
+    - --execution-endpoints=${EC_AUTH_URL}
+    - --execution-jwt=/tmp/jwt/jwtsecret
+    - --eth1-endpoints=${EC_API_URL}
+    - --terminal-total-difficulty-override=231707791542740786049188744689299064356246512
+    - --debug-level=${CC_LOG_LEVEL}
+    - --validator-monitor-auto
+    - --subscribe-all-subnets
+    - --import-all-attestations
+    - --metrics
+    - --metrics-port=5054
+    - --metrics-address=0.0.0.0
+    - --checkpoint-sync-url=http://139.144.26.89:4000/
+networks:
+  sedge:
+    name: sedge-network-chiado

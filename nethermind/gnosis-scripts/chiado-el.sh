@@ -1,0 +1,1 @@
+dotnet run -c release --config=chiado --Merge.TerminalTotalDifficulty=231707791542740786049188744689299064356246512 --JsonRpc.Host=0.0.0.0 --Pruning.Mode=None --JsonRpc.EngineHost=0.0.0.0 --JsonRpc.EnginePort=8551 --Network.DiscoveryPort=30303 --JsonRpc.JwtSecretFile=/tmp/jwtsecret --Init.AutoDump Parity
