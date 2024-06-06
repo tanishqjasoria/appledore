@@ -1,7 +1,7 @@
 import json
-geth = """"""
+geth = open("geth.txt", 'r')
 gethData = []
-for line in geth.strip().split("\n"):
+for line in geth:
     try:
         jsonData = json.loads(line)
         gethData.append(jsonData)
@@ -16,6 +16,13 @@ for i in range(len(gethData)):
     if "gasUsed" in gethData[i]:
         gethData[i]["gasUsed"] = int(gethData[i]["gasUsed"], 16)
 
+gethNew = open("gethX.txt", 'w')
+for i in gethData:
+    gethNew.write(str(i) + "\n")
+
+gethNew.close()
+
+
 gethBundled = []
 newData = []
 for i in range(len(gethData)):
@@ -25,8 +32,8 @@ for i in range(len(gethData)):
         newData = []
 
 
-neth = """"""
-nethData = json.loads(neth.strip())
+neth = "neth.txt"
+nethData = json.load(open(neth, 'r'))
 nethToGethData = []
 nethDataBundled = []
 for line in nethData:
@@ -42,3 +49,9 @@ for line in nethData:
     nethToGethData = []
 
 
+nethNew = open("nethX.txt", 'w')
+for i in nethDataBundled:
+    for j in i:
+        nethNew.write(str(j) + "\n")
+
+nethNew.close()
